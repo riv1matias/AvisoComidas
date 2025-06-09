@@ -31,7 +31,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pandas requests
+          pip install pandas requests openpyxl
 
       - name: Run meal schedule script
         env:
