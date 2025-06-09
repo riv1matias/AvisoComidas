@@ -5,8 +5,8 @@ import os
 import openpyxl
 
 # Configuración de Telegram (usar variables de entorno para seguridad)
-TELEGRAM_BOT_TOKEN = os.environ.get('7641312771:AAH3TDYHrZd2g6RiEAb1m6f7EHSVFuSO2_s')
-TELEGRAM_CHAT_ID = os.environ.get('7641312771')
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
+TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
 
 # URL de tu archivo CSV en GitHub (si es un repositorio público, puedes usar la URL raw)
 # Si es privado, necesitarás una forma de autenticación o una forma de leerlo localmente si ejecutas en tu máquina
