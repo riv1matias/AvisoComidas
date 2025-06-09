@@ -2,6 +2,7 @@ import pandas as pd
 import datetime
 import requests
 import os
+import openpyxl
 
 # Configuración de Telegram (usar variables de entorno para seguridad)
 TELEGRAM_BOT_TOKEN = os.environ.get('7641312771:AAH3TDYHrZd2g6RiEAb1m6f7EHSVFuSO2_s')
