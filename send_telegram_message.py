@@ -9,7 +9,7 @@ TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
 
 # --- Ruta a tu archivo Excel ---
 # Asegúrate de que el archivo 'comidas.xlsx' esté en la misma carpeta raíz que este script.
-EXCEL_FILE_PATH = 'comidas.xlsx'
+EXCEL_FILE_PATH = 'Comidas.xlsx'
 
 def get_preparations_for_today():
     """
