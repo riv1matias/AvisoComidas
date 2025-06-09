@@ -1,0 +1,37 @@
+name: Daily Meal Schedule Alert
+
+on:
+  schedule:
+    # Horarios de Mediodía (9, 10, 11, 12 hs UTC)
+    - cron: '0 12 * * *' # 9 AM Argentina (-3 UTC, entonces 12 UTC)
+    - cron: '0 13 * * *' # 10 AM Argentina
+    - cron: '0 14 * * *' # 11 AM Argentina
+    - cron: '0 15 * * *' # 12 PM Argentina
+
+    # Horarios de Noche (19, 20, 21, 22 hs UTC)
+    - cron: '0 22 * * *' # 19 PM Argentina
+    - cron: '0 23 * * *' # 20 PM Argentina
+    - cron: '0 0 * * *'  # 21 PM Argentina (del día siguiente en UTC)
+    - cron: '0 1 * * *'  # 22 PM Argentina (del día siguiente en UTC)
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install pandas requests
+
+      - name: Run meal schedule script
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py
