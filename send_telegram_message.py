@@ -15,9 +15,11 @@ CSV_FILE_PATH = 'https://github.com/riv1matias/AvisoComidas/blob/main/Comidas.xl
 
 def get_preparations_for_today():
     try:
-        df = pd.read_excel(CSV_FILE_PATH)
+        df = pd.read_excel(CSV_FILE_PATH, engine='openpyxl')
     except FileNotFoundError:
-        return "Error: No se encontró el archivo del cronograma."
+        return "Error: No se encontró el archivo del cronograma (Excel)."
+    except Exception as e:
+        return f"Error al leer el archivo Excel: {e}"
 
     now = datetime.datetime.now()
     current_day_of_week = now.weekday() # 0=Lunes, 6=Domingo
