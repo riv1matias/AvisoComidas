@@ -14,7 +14,7 @@ CSV_FILE_PATH = 'https://github.com/riv1matias/AvisoComidas/blob/main/Comidas.xl
 
 def get_preparations_for_today():
     try:
-        df = pd.read_csv(CSV_FILE_PATH)
+        df = pd.read_excel(CSV_FILE_PATH)
     except FileNotFoundError:
         return "Error: No se encontró el archivo del cronograma."
 
