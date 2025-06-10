@@ -1,24 +1,36 @@
-name: Daily Meal Schedule Alert
+name: Aviso de Comidas
 
 on:
-  push: # Añade esta línea temporalmente para probar con cada push
-    branches:
-      - main # O el nombre de tu rama principal
   schedule:
-    # Horarios de Mediodía (9, 10, 11, 12 hs UTC)
-    - cron: '0 12 * * *' # 9 AM Argentina (-3 UTC, entonces 12 UTC)
-    - cron: '0 13 * * *' # 10 AM Argentina
-    - cron: '0 14 * * *' # 11 AM Argentina
-    - cron: '0 15 * * *' # 12 PM Argentina
-
-    # Horarios de Noche (19, 20, 21, 22 hs UTC)
-    - cron: '0 22 * * *' # 19 PM Argentina
-    - cron: '0 23 * * *' # 20 PM Argentina
-    - cron: '0 0 * * *'  # 21 PM Argentina (del día siguiente en UTC)
-    - cron: '0 1 * * *'  # 22 PM Argentina (del día siguiente en UTC)
+    # Domingo
+    - cron: '30 10 * * 0'  # 7:30 AM Argentina (10:30 UTC)
+      # 30 10 * * 0
+    - cron: '30 11 * * 0'  # 8:30 AM Argentina (11:30 UTC)
+      # 30 11 * * 0
+    - cron: '30 12 * * 0'  # 9:30 AM Argentina (12:30 UTC)
+      # 30 12 * * 0
+    - cron: '30 13 * * 0'  # 10:30 AM Argentina (13:30 UTC)
+      # 30 13 * * 0
+    - cron: '35 10 * * 0'  # 7:35 AM Argentina (10:35 UTC)
+      # 35 10 * * 0
+    - cron: '35 11 * * 0'  # 8:35 AM Argentina (11:35 UTC)
+      # 35 11 * * 0
+    - cron: '35 12 * * 0'  # 9:35 AM Argentina (12:35 UTC)
+      # 35 12 * * 0
+    - cron: '35 13 * * 0'  # 10:35 AM Argentina (13:35 UTC)
+      # 35 13 * * 0
+    # Lunes a Sábado (mismo horario)
+    - cron: '30 10 * * 1-6' # 7:30 AM Argentina (10:30 UTC)
+      # 30 10 * * 1-6
+    - cron: '30 11 * * 1-6' # 8:30 AM Argentina (11:30 UTC)
+      # 30 11 * * 1-6
+    - cron: '30 12 * * 1-6' # 9:30 AM Argentina (12:30 UTC)
+      # 30 12 * * 1-6
+    - cron: '30 13 * * 1-6' # 10:30 AM Argentina (13:30 UTC)
+      # 30 13 * * 1-6
 
 jobs:
-  run_script:
+  send_meal_notifications:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -27,14 +39,176 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.13'
 
       - name: Install dependencies
         run: |
           pip install pandas requests openpyxl
 
-      - name: Run meal schedule script
+      - name: Run meal schedule script (Domingo)
+        if: github.event.schedule != null && github.event.schedule == '30 10 * * 0'
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python send_telegram_message.py
+        run: python send_telegram_message.py "Domingo Noche" "La comida de la noche y mañana"
+
+      - name: Run meal schedule script (Domingo)
+        if: github.event.schedule != null && github.event.schedule == '30 11 * * 0'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Domingo Noche" "La comida de la noche y mañana"
+
+      - name: Run meal schedule script (Domingo)
+        if: github.event.schedule != null && github.event.schedule == '30 12 * * 0'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Domingo Noche" "La comida de la noche y mañana"
+
+      - name: Run meal schedule script (Domingo)
+        if: github.event.schedule != null && github.event.schedule == '30 13 * * 0'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Domingo Noche" "La comida de la noche y mañana"
+
+      - name: Run meal schedule script (Domingo)
+        if: github.event.schedule != null && github.event.schedule == '35 10 * * 0'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Domingo Mediodia" "La comida del mediodia!"
+
+      - name: Run meal schedule script (Domingo)
+        if: github.event.schedule != null && github.event.schedule == '35 11 * * 0'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Domingo Mediodia" "La comida del mediodia!"
+
+      - name: Run meal schedule script (Domingo)
+        if: github.event.schedule != null && github.event.schedule == '35 12 * * 0'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Domingo Mediodia" "La comida del mediodia!"
+
+      - name: Run meal schedule script (Domingo)
+        if: github.event.schedule != null && github.event.schedule == '35 13 * * 0'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Domingo Mediodia" "La comida del mediodia!"
+
+      - name: Run meal schedule script (Lunes a Jueves)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 10 * *') && (github.event.schedule != '30 10 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "${{ steps.day_mapping.outputs.columna }}" "La comida de la noche y mañana"
+
+      - name: Run meal schedule script (Lunes a Jueves)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 11 * *') && (github.event.schedule != '30 11 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "${{ steps.day_mapping.outputs.columna }}" "La comida de la noche y mañana"
+
+      - name: Run meal schedule script (Lunes a Jueves)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 12 * *') && (github.event.schedule != '30 12 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "${{ steps.day_mapping.outputs.columna }}" "La comida de la noche y mañana"
+
+      - name: Run meal schedule script (Lunes a Jueves)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 13 * *') && (github.event.schedule != '30 13 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "${{ steps.day_mapping.outputs.columna }}" "La comida de la noche y mañana"
+
+      - name: Run meal schedule script (Viernes)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 10 * *') && (github.event.schedule != '30 10 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Viernes Noche" "La comida de la noche!"
+
+      - name: Run meal schedule script (Viernes)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 11 * *') && (github.event.schedule != '30 11 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Viernes Noche" "La comida de la noche!"
+
+      - name: Run meal schedule script (Viernes)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 12 * *') && (github.event.schedule != '30 12 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Viernes Noche" "La comida de la noche!"
+
+      - name: Run meal schedule script (Viernes)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 13 * *') && (github.event.schedule != '30 13 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Viernes Noche" "La comida de la noche!"
+
+      - name: Run meal schedule script (Sábado Mediodia)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 10 * *') && (github.event.schedule != '30 10 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Sabado Mediodia" "La comida del mediodia!"
+
+      - name: Run meal schedule script (Sábado Mediodia)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 11 * *') && (github.event.schedule != '30 11 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Sabado Mediodia" "La comida del mediodia!"
+
+      - name: Run meal schedule script (Sábado Mediodia)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 12 * *') && (github.event.schedule != '30 12 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Sabado Mediodia" "La comida del mediodia!"
+
+      - name: Run meal schedule script (Sábado Mediodia)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 13 * *') && (github.event.schedule != '30 13 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Sabado Mediodia" "La comida del mediodia!"
+
+      - name: Run meal schedule script (Sábado Noche)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 10 * *') && (github.event.schedule != '30 10 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Sabado Noche" "La comida de la noche!"
+
+      - name: Run meal schedule script (Sábado Noche)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 11 * *') && (github.event.schedule != '30 11 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Sabado Noche" "La comida de la noche!"
+
+      - name: Run meal schedule script (Sábado Noche)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 12 * *') && (github.event.schedule != '30 12 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Sabado Noche" "La comida de la noche!"
+
+      - name: Run meal schedule script (Sábado Noche)
+        if: github.event.schedule != null && contains(github.event.schedule, '30 13 * *') && (github.event.schedule != '30 13 * * 0')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram_message.py "Sabado Noche" "La comida de la noche!"
