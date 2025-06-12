@@ -2,7 +2,7 @@ import pandas as pd
 import datetime
 import requests
 import os
-import sys # <-- Nueva importación
+import sys # <-- Importante: debe estar al principio
 
 # --- Configuración de Telegram (usar variables de entorno para seguridad) ---
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
@@ -16,11 +16,12 @@ def get_preparations_for_today(target_column):
     Lee el cronograma de comidas de un archivo Excel y
     obtiene las preparaciones para la columna especificada.
     """
-    if not target_column: # <-- Añadida validación para columna vacía
+    if not target_column:
         print("Error: El nombre de la columna objetivo está vacío.")
         return "Error: El nombre de la columna para obtener preparaciones no fue especificado."
 
     try:
+        # Aquí empieza el bloque try-except para la lectura del Excel
         df = pd.read_excel(EXCEL_FILE_PATH, engine='openpyxl')
         print(f"Archivo Excel leído exitosamente para la columna: '{target_column}'")
     except FileNotFoundError:
@@ -39,14 +40,10 @@ def get_preparations_for_today(target_column):
         return "Error: La columna 'Comida' no se encontró en el archivo Excel. Revisa el nombre de tu primera columna."
 
     preparations = []
-    # Iterar sobre cada fila del DataFrame
     for index, row in df.iterrows():
-        # Obtener el nombre de la "Comida" de la primera columna
         meal_name = row['Comida']
-        # Obtener el detalle de la preparación para la columna del día/hora actual
         preparation_detail = row[target_column]
 
-        # Si el detalle de preparación no es nulo y no es solo espacios en blanco, agrégalo a la lista
         if pd.notna(preparation_detail) and str(preparation_detail).strip() != "":
             preparations.append(f"- {meal_name}: {preparation_detail}")
 
@@ -77,7 +74,7 @@ def send_telegram_message(message):
     except requests.exceptions.RequestException as e:
         print(f"Error al enviar mensaje a Telegram: {e}")
 
-# --- Función principal que se llamará desde el workflow ---
+
 def main(target_column, aclaracion=""):
     """
     Función principal que orquesta la lectura del Excel y el envío del mensaje.
@@ -92,11 +89,8 @@ def main(target_column, aclaracion=""):
         print("No se generó un mensaje para enviar (la función get_preparations_for_today no devolvió contenido).")
 
 # --- Punto de entrada principal del script al ser ejecutado desde la línea de comandos ---
+# ESTE ES EL BLOQUE if __name__ == "__main__": CORRECTO
 if __name__ == "__main__":
-    # sys.argv[0] es el nombre del script
-    # sys.argv[1] será el nombre de la columna (ej. "Lunes Noche")
-    # sys.argv[2] será la aclaración (ej. "La comida de la noche y mañana")
-
     if len(sys.argv) >= 2:
         target_column_arg = sys.argv[1]
         aclaracion_arg = sys.argv[2] if len(sys.argv) >= 3 else ""
